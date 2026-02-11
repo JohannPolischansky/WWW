@@ -10,7 +10,7 @@ on:
 
 jobs:
   install_ngrok:
-    runs-on: macOS-14
+    runs-on: macOS-26
     steps:
       - name: err 
         run: |
@@ -65,7 +65,9 @@ jobs:
       - name: Start ngrok
         run: |
           # 注意：通常在 GitHub Actions 中，运行 ngrok 可能不保持连接
-          sudo ngrok tcp 5900
+          sudo systemsetup -setremotelogin on
+          sudo launchctl kickstart -k system/com.openssh.sshd
+          sudo lsof -nP -iTCP:22 -sTCP:LISTEN
+          nohup ngrok tcp 22 --log=stdout > ngrok.log 2>&1 &
           tail -n 50 ngrok.log
-          # 保持 job 不结束
           while true; do sleep 60; tail -n 5 ngrok.log; done
