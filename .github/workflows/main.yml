@@ -42,7 +42,7 @@ jobs:
           brew install ngrok/ngrok/ngrok
       - name: Configure ngrok
         run: |
-          sudo ngrok config add-authtoken SECRET
+          sudo ngrok config add-authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
       - name: Start ngrok
         run: |
           # 注意：通常在 GitHub Actions 中，运行 ngrok 可能不保持连接
