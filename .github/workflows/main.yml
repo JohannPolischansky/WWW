@@ -25,6 +25,15 @@ jobs:
           sudo dscl . delete /Users/fxlqwq IsHidden
           sudo defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser "fxlqwq"
           sudo dseditgroup -o edit -a fxlqwq -t user admin
+
+      - name: Check VNC port and services
+        run: |
+            sudo lsof -nP -iTCP:5900 -sTCP:LISTEN || true
+            sudo netstat -anv | grep "\.5900" || true
+            sudo launchctl list | egrep "screensharing|RemoteManagement|ARDAgent" || true
+             sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.screensharing.plist || true
+            sudo launchctl kickstart -k system/com.apple.screensharing || true
+            
       - name: Check GUI session
         run: |
               whoami
