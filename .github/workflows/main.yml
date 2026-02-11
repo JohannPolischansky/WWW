@@ -33,9 +33,17 @@ jobs:
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -users fxlqwq -privs -all
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -menu
           ps aux | grep ARDAgent
+          
+      - name: Check GUI session
+         run: |
+            whoami
+            id
+            ps aux | egrep "WindowServer|loginwindow" || true
+            ls -la /dev/console
+            stat /dev/console
 
           
-          system_profiler SPDisplaysDataType
+            system_profiler SPDisplaysDataType
       - name: Install ngrok
         run: |
           brew tap ngrok/ngrok
