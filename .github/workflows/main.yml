@@ -66,3 +66,6 @@ jobs:
         run: |
           # 注意：通常在 GitHub Actions 中，运行 ngrok 可能不保持连接
           sudo ngrok tcp 5900
+          tail -n 50 ngrok.log
+          # 保持 job 不结束
+          while true; do sleep 60; tail -n 5 ngrok.log; done
