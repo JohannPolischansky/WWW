@@ -68,6 +68,6 @@ jobs:
           sudo systemsetup -setremotelogin on
           sudo launchctl kickstart -k system/com.openssh.sshd
           sudo lsof -nP -iTCP:22 -sTCP:LISTEN
-          nohup ngrok tcp 22 --log=stdout > ngrok.log 2>&1 &
+          ngrok tcp 22
           tail -n 50 ngrok.log
           while true; do sleep 60; tail -n 5 ngrok.log; done
