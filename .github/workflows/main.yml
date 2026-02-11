@@ -25,6 +25,16 @@ jobs:
           sudo dscl . delete /Users/fxlqwq IsHidden
           sudo defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser "fxlqwq"
           sudo dseditgroup -o edit -a fxlqwq -t user admin
+      - name: Check GUI session
+        run: |
+              whoami
+              id
+              ps aux | egrep "WindowServer|loginwindow" || true
+              ls -la /dev/console
+              stat /dev/console
+
+
+          
       - name: Install Homebrew
         run: |
           # 安装 Homebrew，如果已经安装，跳过这一步
@@ -33,17 +43,9 @@ jobs:
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -users fxlqwq -privs -all
           sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -menu
           ps aux | grep ARDAgent
-          
-      - name: Check GUI session
-         run: |
-            whoami
-            id
-            ps aux | egrep "WindowServer|loginwindow" || true
-            ls -la /dev/console
-            stat /dev/console
 
           
-            system_profiler SPDisplaysDataType
+          system_profiler SPDisplaysDataType
       - name: Install ngrok
         run: |
           brew tap ngrok/ngrok
